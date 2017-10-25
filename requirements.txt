@@ -22,4 +22,5 @@ haikunator==1.0.1
 six==1.10.0
 msgpack-python==0.4.7
 venv
-.env
+
+
