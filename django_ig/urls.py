@@ -16,9 +16,13 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
+from feeds import views
 from django.conf.urls.static import static
 
 urlpatterns = [
+    url(r'^$',views.index, name='index' ),
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('feeds.urls')),
+    url(r'^accounts/', include('accounts.urls')),
+    url(r'^feeds/', include('feeds.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -24,10 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l^c#b-(+&hq)*6p#!ot_iez+_j%d!0euiw2s9$+y@8s_i@_kyp'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALL: Change for production
-ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'channels',
     'imagekit',
     'annoying',
+    'accounts',
     'feeds',
+    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -76,7 +78,7 @@ CHANNEL_LAYERS = {
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,12 +97,18 @@ WSGI_APPLICATION = 'django_ig.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default':dj_database_url.config()
 }
+
+
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
@@ -147,13 +155,13 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-
+ALLOWED_HOSTS = ['*']
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
 
-# try:
-#     from local_settings import *
-# except ImportError as e:
-#     pass
+try:
+    from local_settings import *
+except ImportError as e:
+    pass
